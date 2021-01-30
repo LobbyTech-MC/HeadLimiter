@@ -58,12 +58,9 @@ public final class HeadLimiter extends JavaPlugin implements Listener {
 
                 final int threshold = this.getConfig().getInt("amount");
                 if (i >= threshold) {
-                    Bukkit.getScheduler().runTask(this, () -> {
-                        block.setType(Material.AIR);
-                        block.getWorld().dropItemNaturally(block.getLocation(), sfItem.getItem());
-                    });
+                    e.setCancelled(true);
                     BlockStorage.clearBlockInfo(block.getLocation());
-                    e.getPlayer().sendMessage(ChatColor.RED + "You hit the limit of Cargo nodes in this chunk");
+                    e.getPlayer().sendMessage(ChatColor.RED + "这个区块不能再放更多的货运节点了");
                 }
             }).start();
         }
