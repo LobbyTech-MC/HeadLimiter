@@ -1,3 +1,9 @@
+## Amount of Cargo machines per chunk (25 by default
 amount: 25
 
+## Auto updater (true by default)
 auto-update: true
+
+## Size of the thread pool (4 by default)
+## Only touch this setting when you know what you are doing!
+thread-pool-size: 4

@@ -1,7 +1,11 @@
 package dev.j3fftw.headlimiter;
 
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import java.io.File;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadFactory;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.cscorelib2.updater.GitHubBuildsUpdater;
@@ -12,11 +16,18 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class HeadLimiter extends JavaPlugin implements Listener {
+
+    private final ThreadFactory threadFactory = new ThreadFactoryBuilder().setNameFormat("HeadLimiter-pool-%d").build();
+
+    private final ExecutorService executorService = Executors.newFixedThreadPool(
+        this.getConfig().getInt("thread-pool-size", 4), threadFactory
+    );
 
     @Override
     public void onEnable() {
@@ -40,15 +51,16 @@ public final class HeadLimiter extends JavaPlugin implements Listener {
             || sfItem.isItem(SlimefunItems.CARGO_MANAGER);
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.MONITOR)
     public void onPlace(BlockPlaceEvent e) {
         final SlimefunItem sfItem = SlimefunItem.getByItem(e.getItemInHand());
-        if ((e.getBlock().getType() == Material.PLAYER_HEAD || e.getBlock().getType() == Material.PLAYER_WALL_HEAD)
+        if (!e.isCancelled()
+            && (e.getBlock().getType() == Material.PLAYER_HEAD || e.getBlock().getType() == Material.PLAYER_WALL_HEAD)
             && sfItem != null && isCargo(sfItem)
         ) {
             final Block block = e.getBlock();
             final BlockState[] te = block.getChunk().getTileEntities();
-            new Thread(() -> {
+            executorService.submit(() -> {
                 int i = 0;
                 for (BlockState bs : te) {
                     final SlimefunItem slimefunItem = BlockStorage.check(bs.getLocation());
@@ -62,7 +74,7 @@ public final class HeadLimiter extends JavaPlugin implements Listener {
                     BlockStorage.clearBlockInfo(block.getLocation());
                     e.getPlayer().sendMessage(ChatColor.RED + "这个区块不能再放更多的货运节点了");
                 }
-            }).start();
+            });
         }
     }
 }
