@@ -7,6 +7,7 @@ import java.util.concurrent.ThreadFactory;
 
 import org.bstats.bukkit.Metrics;
 import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
@@ -71,9 +72,8 @@ public final class HeadLimiter extends JavaPlugin implements Listener {
                 }
 
                 final int threshold = this.getConfig().getInt("amount");
-                if (i >= threshold) {
+                if (i > threshold) {
                     e.setCancelled(true);
-                    BlockStorage.clearBlockInfo(block.getLocation());
                     e.getPlayer().sendMessage(ChatColor.RED + "这个区块不能再放更多的货运节点了");
                 }
             });
