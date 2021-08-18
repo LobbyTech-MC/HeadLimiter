@@ -1,9 +1,9 @@
-## Amount of Cargo machines per chunk (25 by default
+## 每个区域的货运数量 (默认: 25)
 amount: 25
 
-## Auto updater (true by default)
-auto-update: true
+## 自动更新 (默认: false)
+auto-update: false
 
-## Size of the thread pool (4 by default)
-## Only touch this setting when you know what you are doing!
+## 线程池大小 (默认: 4)
+## 如果你更改此设置,请确保你清楚你在做什么!
 thread-pool-size: 4

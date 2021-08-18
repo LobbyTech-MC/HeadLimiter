@@ -1,4 +1,5 @@
-# HeadLimiter
+# HeadLimiter 头颅限制
 
-This plugin will only work on Paper. Maybe even the forks of Paper but that hasn't been tested.
-This plugin will limit a player on placing Cargo in chunk default is set to 25
+该插件仅在 Paper 中才能运行。也许在Paper的fork版本中也能正常运行，但没有经过测测试。
+
+该插件会限制玩家在一个区块中可放置的货运节点的数量，默认为25个

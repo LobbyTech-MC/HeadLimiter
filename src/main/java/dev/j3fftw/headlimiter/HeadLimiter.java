@@ -40,7 +40,7 @@ public final class HeadLimiter extends JavaPlugin implements Listener {
         new Metrics(this, 9968);
 
         if (getConfig().getBoolean("auto-update") && getDescription().getVersion().startsWith("DEV - ")) {
-            new GitHubBuildsUpdater(this, getFile(), "J3fftw1/HeadLimiter/master").start();
+            new GitHubBuildsUpdater(this, getFile(), "ybw0014/HeadLimiter/master").start();
         }
     }
 
@@ -80,7 +80,7 @@ public final class HeadLimiter extends JavaPlugin implements Listener {
                         }
                     });
                     BlockStorage.clearBlockInfo(block.getLocation());
-                    e.getPlayer().sendMessage(ChatColor.RED + "You hit the limit of Cargo nodes in this chunk");
+                    e.getPlayer().sendMessage(ChatColor.RED + "你已达到该区块货运节点的上限");
                 }
             });
         }
