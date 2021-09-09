@@ -6,7 +6,7 @@
 
     <groupId>dev.j3fftw.headlimiter</groupId>
     <artifactId>HeadLimiter</artifactId>
-    <version>UNOFFICIAL</version>
+    <version>release-12-zh_CN</version>
     <packaging>jar</packaging>
 
     <name>HeadLimiter</name>
@@ -109,9 +109,9 @@
         </dependency>
 
         <dependency>
-            <groupId>com.github.Slimefun-Addon-Community</groupId>
-            <artifactId>extrautils</artifactId>
-            <version>cea1be6550</version>
+            <groupId>com.github.ybw0014</groupId>
+            <artifactId>ExtraUtils</artifactId>
+            <version>bf89aee6ae</version>
         </dependency>
 
         <dependency>
