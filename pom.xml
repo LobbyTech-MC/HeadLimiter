@@ -102,9 +102,9 @@
         </dependency>
 
         <dependency>
-            <groupId>com.github.thebusybiscuit</groupId>
+            <groupId>com.github.Slimefun</groupId>
             <artifactId>Slimefun4</artifactId>
-            <version>RC-27</version>
+            <version>RC-28</version>
             <scope>provided</scope>
         </dependency>
 
