@@ -47,7 +47,7 @@ public final class HeadLimiter extends JavaPlugin implements Listener {
         new Metrics(this, 9968);
 
         if (getConfig().getBoolean("auto-update") && getDescription().getVersion().startsWith("DEV - ")) {
-            new GitHubBuildsUpdater(this, getFile(), "ybw0014/HeadLimiter/master").start();
+            new GitHubBuildsUpdater(this, getFile(), "ybw0014/HeadLimiter-CN/master").start();
         }
     }
 

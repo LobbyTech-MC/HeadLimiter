@@ -6,7 +6,7 @@
 
     <groupId>dev.j3fftw.headlimiter</groupId>
     <artifactId>HeadLimiter</artifactId>
-    <version>release-12-zh_CN</version>
+    <version>DEV-15-zh_CN</version>
     <packaging>jar</packaging>
 
     <name>HeadLimiter</name>

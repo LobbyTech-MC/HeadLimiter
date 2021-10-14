@@ -5,14 +5,14 @@
 该插件会限制玩家在一个区块中可放置的货运节点的数量，默认为25个
 
 ## 下载 HeadLimiter
-你可以在这里下载 HeadLimiter: [点此下载](https://github.com/ybw0014/HeadLimiter-CN/actions/workflows/build.yml)
+你可以在这里下载 HeadLimiter: [点此下载](https://builds.guizhanss.net/ybw0014/HeadLimiter-CN/master)
 
 <p align="center">
   <a href="https://github.com/ybw0014/HeadLimiter-CN/actions/workflows/maven.yml">
     <img src="https://github.com/ybw0014/HeadLimiter-CN/actions/workflows/maven.yml/badge.svg" alt="Java CI"/>
   </a>
 
-  <a href="https://github.com/ybw0014/HeadLimiter-CN/actions/workflows/build.yml">
-    <img src="https://github.com/ybw0014/HeadLimiter-CN/actions/workflows/build.yml/badge.svg" alt="Auto Build"/>
+  <a href="https://builds.guizhanss.net/ybw0014/HeadLimiter-CN/master">
+    <img src="https://builds.guizhanss.net/f/ybw0014/HeadLimiter-CN/master/badge.svg" alt="Build status"/>
   </a>
 </p>

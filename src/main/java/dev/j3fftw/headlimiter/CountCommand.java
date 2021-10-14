@@ -46,7 +46,7 @@ public class CountCommand implements CommandExecutor {
                 }
                 StringBuilder message = new StringBuilder()
                         .append(ChatColor.GOLD)
-                        .append("Current count: ")
+                        .append("当前数量: ")
                         .append(total)
                         .append("/")
                         .append(INSTANCE.getConfig().getInt("amount"))
@@ -66,7 +66,7 @@ public class CountCommand implements CommandExecutor {
             });
         } else {
             sender.sendMessage(ChatColor.GOLD + "/hl count"
-                    + ChatColor.GRAY + " - Counts how many heads are in this chunk"
+                    + ChatColor.GRAY + " - 统计该区块中有多少个头颅"
             );
         }
 
