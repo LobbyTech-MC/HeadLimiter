@@ -3,3 +3,8 @@ version: ${project.version}
 main: dev.j3fftw.headlimiter.HeadLimiter
 depend: [Slimefun]
 api-version: 1.16
+
+commands:
+  headlimiter:
+    description: Basic HeadLimiter command
+    aliases: hl
