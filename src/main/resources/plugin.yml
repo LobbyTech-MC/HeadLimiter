@@ -8,3 +8,8 @@ commands:
   headlimiter:
     description: Basic HeadLimiter command
     aliases: hl
+
+permissions:
+  headlimiter.bypass:
+    description: Allows players to bypass the head limit
+    default: false

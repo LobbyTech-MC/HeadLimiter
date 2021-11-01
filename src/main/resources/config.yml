@@ -7,3 +7,17 @@ auto-update: false
 ## 线程池大小 (默认: 4)
 ## 如果你更改此设置,请确保你清楚你在做什么!
 thread-pool-size: 4
+
+## 启用权限 (默认为false,关闭)
+## 权限节点: headlimiter.permission.<name>
+## 例子: headlimiter.permission.noob
+##
+## 当开启权限时，你可以设置权限对应的头颅数量上限
+## 权限节点的数量应从大到小排序（参考默认顺序）
+permissions: false
+permission:
+  ## sefi: 25
+  ## walshy: 20
+  ## alessio: 15
+  ## jeff: 10
+  noob: 5

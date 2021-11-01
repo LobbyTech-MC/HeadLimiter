@@ -65,7 +65,7 @@
                 <configuration>
                     <relocations>
                         <relocation>
-                            <pattern>org.bstats.bukkit</pattern>
+                            <pattern>org.bstats</pattern>
                             <shadedPattern>dev.j3fftw.headlimiter.bstats</shadedPattern>
                         </relocation>
                         <relocation>
@@ -121,7 +121,7 @@
         <dependency>
             <groupId>org.bstats</groupId>
             <artifactId>bstats-bukkit</artifactId>
-            <version>1.7</version>
+            <version>2.2.1</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>

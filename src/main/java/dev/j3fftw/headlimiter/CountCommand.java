@@ -1,72 +1,54 @@
 package dev.j3fftw.headlimiter;
 
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import org.bukkit.ChatColor;
-import org.bukkit.block.BlockState;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.Map;
 
 public class CountCommand implements CommandExecutor {
-
-    private final HeadLimiter INSTANCE = HeadLimiter.getInstance();
-
-    private static final String[] IDS_TO_COUNT = {
-            "CARGO_NODE_INPUT",
-            "CARGO_NODE_OUTPUT",
-            "CARGO_NODE_OUTPUT_ADVANCED",
-            "CARGO_NODE",
-            "CARGO_MANAGER"
-    };
 
     @Override
     @ParametersAreNonnullByDefault
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
         if (args.length == 1 && sender instanceof Player) {
-            Player p = (Player) sender;
-            final BlockState[] tileEntities = p.getChunk().getTileEntities();
-            INSTANCE.executorService.submit(() -> {
-                int[] counts = new int[IDS_TO_COUNT.length];
-                int total = 0;
-                for (BlockState state : tileEntities) {
-                    final SlimefunItem slimefunItem = BlockStorage.check(state.getLocation());
-                    if (slimefunItem != null) {
-                        for (int i = 0; i < IDS_TO_COUNT.length; i++) {
-                            if (slimefunItem.getId().equals(IDS_TO_COUNT[i])) {
-                                counts[i]++;
-                                total++;
-                                break;
-                            }
-                        }
-                    }
-                }
-                StringBuilder message = new StringBuilder()
-                        .append(ChatColor.GOLD)
-                        .append("当前数量: ")
-                        .append(total)
-                        .append("/")
-                        .append(INSTANCE.getConfig().getInt("amount"))
+            Player player = (Player) sender;
+
+            Utils.count(player.getChunk(), result -> {
+                StringBuilder message = new StringBuilder();
+
+                if (Utils.canBypass(player)) {
+                    message.append(result.getTotal() >= Utils.getMaxHeads(player) ? ChatColor.RED : ChatColor.GREEN)
+                        .append("你可以绕过数量限制")
                         .append('\n');
-                for (int i = 0; i < IDS_TO_COUNT.length; i++) {
-                    if (counts[i] > 0) {
+                }
+
+                message.append(ChatColor.GOLD)
+                    .append("当前数量: ")
+                    .append(result.getTotal())
+                    .append("/")
+                    .append(Utils.getMaxHeads(player))
+                    .append('\n');
+
+                for (Map.Entry<String, Integer> entry : result.getCounts().entrySet()) {
+                    if (entry.getValue() > 0) {
                         message.append("  ")
-                                .append(ChatColor.GRAY)
-                                .append(IDS_TO_COUNT[i])
-                                .append(": ")
-                                .append(ChatColor.YELLOW)
-                                .append(counts[i])
-                                .append('\n');
+                            .append(ChatColor.GRAY)
+                            .append(entry.getKey())
+                            .append(": ")
+                            .append(ChatColor.YELLOW)
+                            .append(entry.getValue())
+                            .append('\n');
                     }
                 }
-                p.sendMessage(message.toString());
+                player.sendMessage(message.toString());
             });
         } else {
             sender.sendMessage(ChatColor.GOLD + "/hl count"
-                    + ChatColor.GRAY + " - 统计该区块中有多少个头颅"
+                + ChatColor.GRAY + " - 统计该区块中有多少个头颅"
             );
         }
 
