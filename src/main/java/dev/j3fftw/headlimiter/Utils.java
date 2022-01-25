@@ -103,9 +103,9 @@ public final class Utils {
 
             BlockStorage.clearBlockInfo(block.getLocation());
             if (isPlacingRestricted) {
-                player.sendMessage(ChatColor.RED + "You can't place Cargo nodes in unclaimed areas!");
+                player.sendMessage(ChatColor.RED + "你不能在领地外放置货运节点!");
             } else {
-                player.sendMessage(ChatColor.RED + "You hit the limit of Cargo nodes in this chunk");
+                player.sendMessage(ChatColor.RED + "你已达到该区块的货运节点限制");
             }
         }
     }

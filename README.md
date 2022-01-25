@@ -6,7 +6,7 @@
 
 ## 下载 HeadLimiter
 
-
+**自动更新**: 汉化版构建#4及以后版本包含*自动更新*功能，默认开启。
 
 你可以在这里下载 HeadLimiter: [点此下载](https://builds.guizhanss.net/ybw0014/HeadLimiter-CN/master)
 

@@ -8,7 +8,7 @@ auto-update: false
 ## 如果你更改此设置,请确保你清楚你在做什么!
 thread-pool-size: 4
 
-## 如果服务器拥有领地类型的插件，则玩家无法在领地外放置货运节点等
+## 如果服务器拥有领地类型(Towny)的插件，则玩家无法在领地外放置货运节点等
 ## 这将阻止从领地外延伸货运系统并偷取物品
 block-wilderness-cargo: false
 

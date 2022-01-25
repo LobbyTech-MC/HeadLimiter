@@ -63,6 +63,7 @@
                 </executions>
 
                 <configuration>
+                    <minimizeJar>true</minimizeJar>
                     <relocations>
                         <relocation>
                             <pattern>org.bstats</pattern>
@@ -71,6 +72,10 @@
                         <relocation>
                             <pattern>dev.j3fftw.extrautils</pattern>
                             <shadedPattern>dev.j3fftw.headlimiter.extrautils</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>net.guizhanss.guizhanlib</pattern>
+                            <shadedPattern>dev.j3fftw.headlimiter.guizhanlib</shadedPattern>
                         </relocation>
                     </relocations>
                 </configuration>
@@ -130,6 +135,13 @@
             <artifactId>Towny</artifactId>
             <version>0.97.3.0</version>
             <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>net.guizhanss</groupId>
+            <artifactId>GuizhanLib</artifactId>
+            <version>0.5.0</version>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 </project>
