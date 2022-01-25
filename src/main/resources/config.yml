@@ -1,8 +1,8 @@
 ## 每个区域的货运数量 (默认: 25)
 amount: 25
 
-## 自动更新 (默认: false)
-auto-update: false
+## 自动更新 (默认: true)
+auto-update: true
 
 ## 线程池大小 (默认: 4)
 ## 如果你更改此设置,请确保你清楚你在做什么!
