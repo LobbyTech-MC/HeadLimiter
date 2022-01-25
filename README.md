@@ -5,6 +5,9 @@
 该插件会限制玩家在一个区块中可放置的货运节点的数量，默认为25个
 
 ## 下载 HeadLimiter
+
+
+
 你可以在这里下载 HeadLimiter: [点此下载](https://builds.guizhanss.net/ybw0014/HeadLimiter-CN/master)
 
 <p align="center">
