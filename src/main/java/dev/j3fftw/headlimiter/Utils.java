@@ -1,6 +1,7 @@
 package dev.j3fftw.headlimiter;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
+import com.palmergames.bukkit.towny.TownyAPI;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import org.bukkit.Bukkit;
@@ -89,7 +90,8 @@ public final class Utils {
 
     @ParametersAreNonnullByDefault
     public static void onCheck(Player player, Block block, int maxAmount, int count, SlimefunItem sfItem) {
-        if (count > maxAmount) {
+        boolean isPlacingRestricted = isPlacingRestricted(block);
+        if (count > maxAmount || isPlacingRestricted) {
             Bukkit.getScheduler().runTask(HeadLimiter.getInstance(), () -> {
                 if (block.getType() != Material.AIR) {
                     block.setType(Material.AIR);
@@ -100,7 +102,28 @@ public final class Utils {
             });
 
             BlockStorage.clearBlockInfo(block.getLocation());
-            player.sendMessage(ChatColor.RED + "You hit the limit of Cargo nodes in this chunk");
+            if (isPlacingRestricted) {
+                player.sendMessage(ChatColor.RED + "You can't place Cargo nodes in unclaimed areas!");
+            } else {
+                player.sendMessage(ChatColor.RED + "You hit the limit of Cargo nodes in this chunk");
+            }
+        }
+    }
+
+    /**
+     * Whether the block placement outside claimed areas is prohibited or not by protection plugins
+     * @param block The block to be checked
+     * @return Whether the placement is prohibited or not
+     */
+    public static boolean isPlacingRestricted(@Nonnull Block block) {
+        if (HeadLimiter.getInstance().getConfig().getBoolean("block-wilderness-cargo", false)) {
+            boolean isTownyWilderness = Bukkit.getServer().getPluginManager().isPluginEnabled("Towny")
+                    && TownyAPI.getInstance().isWilderness(block);
+
+            // This is intentionally redundant to allow for expandability by adding more booleans and returning their || chain
+            return isTownyWilderness;
+        } else {
+            return false;
         }
     }
 }
