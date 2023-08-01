@@ -1,8 +1,10 @@
 package dev.j3fftw.headlimiter;
 
 import java.io.File;
+import java.util.logging.Level;
 
 import dev.j3fftw.headlimiter.blocklimiter.Group;
+import net.guizhanss.guizhanlibplugin.updater.GuizhanUpdater;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.ConfigurationSection;
@@ -15,7 +17,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
-import io.github.thebusybiscuit.slimefun4.libraries.dough.updater.GitHubBuildsUpdater;
 
 import dev.j3fftw.headlimiter.blocklimiter.BlockLimiter;
 
@@ -28,6 +29,14 @@ public final class HeadLimiter extends JavaPlugin implements Listener {
     @Override
     public void onEnable() {
         instance = this;
+
+        if (!getServer().getPluginManager().isPluginEnabled("GuizhanLibPlugin")) {
+            getLogger().log(Level.SEVERE, "本插件需要 鬼斩前置库插件(GuizhanLibPlugin) 才能运行!");
+            getLogger().log(Level.SEVERE, "从此处下载: https://50L.cc/gzlib");
+            getServer().getPluginManager().disablePlugin(this);
+            return;
+        }
+
         if (!new File(getDataFolder(), "config.yml").exists()) {
             saveDefaultConfig();
         }
