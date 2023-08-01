@@ -1,27 +1,36 @@
-## 每个区域的货运数量 (默认: 25)
-amount: 25
-
-## 自动更新 (默认: true)
-auto-update: true
-
-## 线程池大小 (默认: 4)
-## 如果你更改此设置,请确保你清楚你在做什么!
-thread-pool-size: 4
-
-## 如果服务器拥有领地类型(Towny)的插件，则玩家无法在领地外放置货运节点等
-## 这将阻止从领地外延伸货运系统并偷取物品
-block-wilderness-cargo: false
-
-## 启用权限 (默认为false,关闭)
-## 权限节点: headlimiter.permission.<name>
-## 例子: headlimiter.permission.noob
+## 方块限制
+## 现在可以限制任何粘液科技中的方块放置，包括附属中的方块。
+## 你需要添加方块组，然后进行相关设置。
 ##
-## 当开启权限时，你可以设置权限对应的头颅数量上限
-## 权限节点的数量应从大到小排序（参考默认顺序）
-permissions: false
-permission:
-  ## sefi: 25
-  ## walshy: 20
-  ## alessio: 15
-  ## jeff: 10
-  noob: 5
+## 示例配置是一个限制区块内所有货运节点的例子。
+## cargo：这是方块组的名称，使用英文、数字或下划线的组合，不要使用其他的奇怪名称和符号。
+## items-amount：每个区块内最多可以放置多少方块。（组内的所有方块叠加起来的上限）
+## items：方块的粘液物品ID列表（支持附属）。
+## permission-amount：你可以在此增加权限节点，以设置不同的数量限制。
+##    如果你不需要这一项，你可以删除。
+##  cargo:
+##    items-amount: 25
+##    items:
+##      - CARGO_NODE_INPUT
+##      - CARGO_NODE_OUTPUT
+##      - CARGO_NODE_OUTPUT_ADVANCED
+##      - CARGO_NODE
+##      - CARGO_MANAGER
+##    permission-amount:
+##      example_1: 50
+##      example_2: 100
+##      example_3: 150
+
+block-limits:
+  cargo:
+    items-amount: 25
+    items:
+      - CARGO_NODE_INPUT
+      - CARGO_NODE_OUTPUT
+      - CARGO_NODE_OUTPUT_ADVANCED
+      - CARGO_NODE
+      - CARGO_MANAGER
+    permission-amount:
+      example_1: 50
+      example_2: 100
+      example_3: 150
