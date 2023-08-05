@@ -44,7 +44,7 @@ public class BlockListener implements Listener {
         } else {
             // Chunk has hit its limit for this type, time to deny the placement
             event.setCancelled(true);
-            event.getPlayer().sendMessage(ChatColor.RED + "You cannot place any more of this item within this chunk.");
+            event.getPlayer().sendMessage(ChatColor.RED + "你不能在该区块中放置更多。");
         }
     }
 

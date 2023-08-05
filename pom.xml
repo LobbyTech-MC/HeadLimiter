@@ -107,10 +107,11 @@
         </dependency>
 
         <dependency>
-            <groupId>com.github.Slimefun</groupId>
+            <groupId>com.github.StarWishsama</groupId>
             <artifactId>Slimefun4</artifactId>
-            <version>RC-35</version>
-            <scope>provided</scope>
+            <version>230804-4c8bd2b-Insider</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/local/Slimefun-230804-4c8bd2b-Insider.jar</systemPath>
         </dependency>
 
         <dependency>

@@ -8,8 +8,11 @@ import java.util.Set;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import com.xzavier0722.mc.plugin.slimefun4.storage.callback.IAsyncReadCallback;
+import com.xzavier0722.mc.plugin.slimefun4.storage.controller.BlockDataController;
+import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 
@@ -17,9 +20,6 @@ import com.google.common.base.Preconditions;
 
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.blocks.ChunkPosition;
-
-import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
-import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
 import dev.j3fftw.headlimiter.HeadLimiter;
 
@@ -37,26 +37,29 @@ public final class BlockLimiter {
     }
 
     private void loadBlockStorage() {
+        BlockDataController controller = Slimefun.getDatabaseManager().getBlockDataController();
         for (World world : Bukkit.getWorlds()) {
-            BlockStorage worldStorage = BlockStorage.getStorage(world);
-            if (worldStorage == null) {
-                return;
-            } else {
-                for (Map.Entry<Location, Config> entry : worldStorage.getRawStorage().entrySet()) {
-                    Location location = entry.getKey();
-                    String id = entry.getValue().getString("id");
-                    ChunkPosition chunkPosition = new ChunkPosition(location.getChunk());
-                    ChunkContent content = contentMap.get(chunkPosition);
-                    if (content == null) {
-                        content = new ChunkContent();
-                        content.incrementAmount(id);
-                        contentMap.put(chunkPosition, content);
-                    } else {
-                        content.incrementAmount(id);
-                    }
+            controller.getAllBlockDataAsync(world, new IAsyncReadCallback<>() {
+                @Override
+                public void onResult(Set<SlimefunBlockData> result) {
+                    loadWorldStorage(result);
                 }
-            }
+            });
+        }
+    }
 
+    private void loadWorldStorage(Set<SlimefunBlockData> blockDataSet) {
+        for (SlimefunBlockData blockData : blockDataSet) {
+            String id = blockData.getSfId();
+            ChunkPosition chunkPosition = new ChunkPosition(blockData.getLocation().getChunk());
+            ChunkContent content = contentMap.get(chunkPosition);
+            if (content == null) {
+                content = new ChunkContent();
+                content.incrementAmount(id);
+                contentMap.put(chunkPosition, content);
+            } else {
+                content.incrementAmount(id);
+            }
         }
     }
 
