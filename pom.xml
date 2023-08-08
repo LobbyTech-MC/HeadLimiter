@@ -96,6 +96,13 @@
             <id>bstats-repo</id>
             <url>https://repo.codemc.org/repository/maven-public</url>
         </repository>
+        <repository>
+            <id>github</id>
+            <url>https://maven.pkg.github.com/StarWishsama/Slimefun-Secret</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -107,11 +114,10 @@
         </dependency>
 
         <dependency>
-            <groupId>com.github.StarWishsama</groupId>
-            <artifactId>Slimefun4</artifactId>
-            <version>230804-4c8bd2b-Insider</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/local/Slimefun-230804-4c8bd2b-Insider.jar</systemPath>
+            <groupId>com.github.slimefun</groupId>
+            <artifactId>slimefun</artifactId>
+            <version>230805-4d8c3d8-Insider</version>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
