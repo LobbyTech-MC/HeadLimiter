@@ -2,7 +2,11 @@ package dev.j3fftw.headlimiter.blocklimiter;
 
 import javax.annotation.Nonnull;
 
+import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
+import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunChunkData;
+import com.xzavier0722.mc.plugin.slimefun4.storage.event.SlimefunChunkDataLoadEvent;
 import org.bukkit.ChatColor;
+import org.bukkit.Chunk;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
@@ -17,6 +21,24 @@ public class BlockListener implements Listener {
 
     public BlockListener(@Nonnull HeadLimiter headLimiter) {
         headLimiter.getServer().getPluginManager().registerEvents(this, headLimiter);
+    }
+
+    @EventHandler
+    public void onSlimefunChunkLoad(@Nonnull SlimefunChunkDataLoadEvent event) {
+        BlockLimiter blockLimiter = HeadLimiter.getInstance().getBlockLimiter();
+        ChunkPosition chunkPos = new ChunkPosition(event.getChunk());
+        
+        for (SlimefunBlockData blockData : event.getChunkData().getAllBlockData()) {
+            String id = blockData.getSfId();
+            ChunkContent content = blockLimiter.getChunkContent(chunkPos);
+            if (content == null) {
+                content = new ChunkContent();
+                content.incrementAmount(id);
+                blockLimiter.setChunkContent(chunkPos, content);
+            } else {
+                content.incrementAmount(id);
+            }
+        }
     }
 
     @EventHandler

@@ -33,34 +33,6 @@ public final class BlockLimiter {
         Preconditions.checkArgument(instance == null, "Cannot create a new instance of the BlockLimiter");
         instance = this;
         new BlockListener(headLimiter);
-        headLimiter.getServer().getScheduler().runTaskLater(headLimiter, this::loadBlockStorage, 1);
-    }
-
-    private void loadBlockStorage() {
-        BlockDataController controller = Slimefun.getDatabaseManager().getBlockDataController();
-        for (World world : Bukkit.getWorlds()) {
-            controller.getAllBlockDataAsync(world, new IAsyncReadCallback<>() {
-                @Override
-                public void onResult(Set<SlimefunBlockData> result) {
-                    loadWorldStorage(result);
-                }
-            });
-        }
-    }
-
-    private void loadWorldStorage(Set<SlimefunBlockData> blockDataSet) {
-        for (SlimefunBlockData blockData : blockDataSet) {
-            String id = blockData.getSfId();
-            ChunkPosition chunkPosition = new ChunkPosition(blockData.getLocation().getChunk());
-            ChunkContent content = contentMap.get(chunkPosition);
-            if (content == null) {
-                content = new ChunkContent();
-                content.incrementAmount(id);
-                contentMap.put(chunkPosition, content);
-            } else {
-                content.incrementAmount(id);
-            }
-        }
     }
 
     @Nullable
