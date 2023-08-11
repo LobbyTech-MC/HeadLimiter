@@ -114,9 +114,9 @@
         </dependency>
 
         <dependency>
-            <groupId>com.github.slimefun</groupId>
-            <artifactId>slimefun</artifactId>
-            <version>230809-4ea6c8b-Insider</version>
+            <groupId>com.github.StarWishsama</groupId>
+            <artifactId>Slimefun4</artifactId>
+            <version>eb20e5911f</version>
             <scope>provided</scope>
         </dependency>
 
