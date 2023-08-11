@@ -27,7 +27,7 @@ public class CountCommand implements CommandExecutor {
                 }
 
                 message.append(ChatColor.GOLD)
-                    .append("当前数量: ")
+                    .append("当前数量：")
                     .append(result.getTotal())
                     .append("/")
                     .append(Utils.getMaxHeads(player))
@@ -38,7 +38,7 @@ public class CountCommand implements CommandExecutor {
                         message.append("  ")
                             .append(ChatColor.GRAY)
                             .append(entry.getKey())
-                            .append(": ")
+                            .append("：")
                             .append(ChatColor.YELLOW)
                             .append(entry.getValue())
                             .append('\n');
@@ -48,7 +48,7 @@ public class CountCommand implements CommandExecutor {
             });
         } else {
             sender.sendMessage(ChatColor.GOLD + "/hl count"
-                + ChatColor.GRAY + " - 统计该区块中有多少个头颅"
+                + ChatColor.GRAY + " - 统计该区块中有多少个方块"
             );
         }
 

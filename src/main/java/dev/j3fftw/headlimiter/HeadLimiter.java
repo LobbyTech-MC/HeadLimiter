@@ -1,10 +1,13 @@
 package dev.j3fftw.headlimiter;
 
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
-import net.guizhanss.guizhanlibplugin.updater.GuizhanBuildsUpdaterWrapper;
+import java.io.File;
+import java.util.logging.Level;
+
+import dev.j3fftw.headlimiter.blocklimiter.Group;
+import net.guizhanss.guizhanlibplugin.updater.GuizhanUpdater;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -12,17 +15,31 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.File;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
+
+import dev.j3fftw.headlimiter.blocklimiter.BlockLimiter;
 
 public final class HeadLimiter extends JavaPlugin implements Listener {
 
     private static HeadLimiter instance;
+    private BlockLimiter blockLimiter;
+
 
     @Override
     public void onEnable() {
         instance = this;
-        if (!new File(getDataFolder(), "config.yml").exists())
+
+        if (!getServer().getPluginManager().isPluginEnabled("GuizhanLibPlugin")) {
+            getLogger().log(Level.SEVERE, "本插件需要 鬼斩前置库插件(GuizhanLibPlugin) 才能运行!");
+            getLogger().log(Level.SEVERE, "从此处下载: https://50L.cc/gzlib");
+            getServer().getPluginManager().disablePlugin(this);
+            return;
+        }
+
+        if (!new File(getDataFolder(), "config.yml").exists()) {
             saveDefaultConfig();
+        }
 
         Utils.loadPermissions();
 
@@ -33,8 +50,11 @@ public final class HeadLimiter extends JavaPlugin implements Listener {
         new MetricsService(this).start();
 
         if (getConfig().getBoolean("auto-update") && getDescription().getVersion().startsWith("Build")) {
-            GuizhanBuildsUpdaterWrapper.start(this, getFile(), "ybw0014", "HeadLimiter-CN", "master", false);
+            GuizhanUpdater.start(this, getFile(), "SlimefunGuguProject", "HeadLimiter", "master");
         }
+
+        this.blockLimiter = new BlockLimiter(this);
+        loadConfig();
     }
 
     @Override
@@ -64,13 +84,29 @@ public final class HeadLimiter extends JavaPlugin implements Listener {
                 && isCargo(sfItem)
             ) {
                 final int maxAmount = Utils.getMaxHeads(player);
-                Utils.count(block.getChunk(),
-                    result -> Utils.onCheck(player, block, maxAmount, result.getTotal(), sfItem));
+                Utils.count(
+                    block.getChunk(),
+                    result -> Utils.onCheck(player, block, maxAmount, result.getTotal(), sfItem)
+                );
             }
         }
     }
 
+    public BlockLimiter getBlockLimiter() {
+        return blockLimiter;
+    }
+
     public static HeadLimiter getInstance() {
         return instance;
+    }
+
+    public void loadConfig() {
+        ConfigurationSection configurationSection = instance.getConfig().getConfigurationSection("block-limits");
+        if (configurationSection == null) {
+            throw new IllegalStateException("没有配置任何方块组！");
+        }
+        for (String key : configurationSection.getKeys(false)) {
+            BlockLimiter.getInstance().getGroups().add(new Group(configurationSection.getConfigurationSection(key)));
+        }
     }
 }
