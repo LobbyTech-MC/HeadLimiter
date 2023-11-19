@@ -44,7 +44,7 @@ jobs:
       #     asset_content_type: application/jar
 
       - name: Upload to Blob Builds
-        uses: WalshyDev/blob-builds/gh-action@walshy/gh-action
+        uses: WalshyDev/blob-builds/gh-action@main
         with:
           project: HeadLimiter
           apiToken: ${{ secrets.BLOB_BUILDS_API_TOKEN }}
