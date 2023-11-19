@@ -1,8 +1,7 @@
 name: Metrics Deployment
 
 on:
-  push:
-    branches: [ master ]
+  push: {}
 
 jobs:
   publish:
@@ -29,13 +28,21 @@ jobs:
         with:
           tag_name: ${{ github.run_number	}}
           release_name: Build ${{ '#' }}${{ github.run_number	}}
-      - name: Upload Module Asset
-        id: upload-release-asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # - name: Upload Module Asset
+      #   id: upload-release-asset
+      #   uses: actions/upload-release-asset@v1
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   with:
+      #     upload_url: ${{ steps.create_release.outputs.upload_url }}
+      #     asset_path: ./target/HeadLimiter.jar
+      #     asset_name: HeadLimiter.jar
+      #     asset_content_type: application/jar
+
+      - name: Upload to Blob Builds
+        uses: WalshyDev/blob-builds/gh-action@walshy/gh-action
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./target/HeadLimiter.jar
-          asset_name: HeadLimiter.jar
-          asset_content_type: application/jar
+          project: HeadLimiter
+          apiToken: ${{ secrets.BLOB_BUILDS_API_TOKEN }}
+          file: ./target/HeadLimiter.jar
+          releaseNotes: ${{ github.event.head_commit.message }}
