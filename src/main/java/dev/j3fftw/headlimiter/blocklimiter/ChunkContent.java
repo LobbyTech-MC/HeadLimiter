@@ -31,7 +31,12 @@ public class ChunkContent {
             if (group.contains(itemId)) {
                 int amount = 0;
                 for (String item : group.getItems()) {
-                    amount += this.contentMap.get(item);
+                    Integer placedAmount = this.contentMap.get(item);
+                    if (placedAmount == null) {
+                        continue;
+                    }
+
+                    amount += placedAmount;
                 }
                 return amount;
             }
