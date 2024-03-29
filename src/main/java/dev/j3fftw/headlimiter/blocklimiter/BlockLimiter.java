@@ -45,7 +45,7 @@ public final class BlockLimiter {
                 for (Map.Entry<Location, Config> entry : worldStorage.getRawStorage().entrySet()) {
                     Location location = entry.getKey();
                     String id = entry.getValue().getString("id");
-                    ChunkPosition chunkPosition = new ChunkPosition(location.getChunk());
+                    ChunkPosition chunkPosition = new ChunkPosition(world, location.getBlockX(), location.getBlockZ());
                     ChunkContent content = contentMap.get(chunkPosition);
                     if (content == null) {
                         content = new ChunkContent();
