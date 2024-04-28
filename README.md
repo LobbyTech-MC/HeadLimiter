@@ -1,5 +1,7 @@
 # HeadLimiter 头颅限制
 
+### 本汉化版不再维护与更新，请使用为汉化版编写的 [BlockLimiter](https://github.com/ybw0014/BlockLimiter)
+
 该插件仅在 Paper 中才能运行。也许在Paper的衍生版本（例如Purpur）中也能正常运行，但没有经过测测试。
 
 该插件会限制玩家在一个区块中可放置的粘液科技方块数量。详细限制请阅读配置文件
