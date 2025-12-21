@@ -102,9 +102,9 @@ public final class Utils {
 
             BlockStorage.clearBlockInfo(block.getLocation());
             if (isPlacingRestricted) {
-                player.sendMessage(ChatColor.RED + "你不能在领地外放置货运节点!");
+                player.sendMessage(ChatColor.RED + "你不能在领地外放置粘液科技物品或机器!");
             } else {
-                player.sendMessage(ChatColor.RED + "你已达到该区块的货运节点限制");
+                player.sendMessage(ChatColor.RED + "你不能在该区块放置更多粘液科技物品或机器了！");
             }
         }
     }
