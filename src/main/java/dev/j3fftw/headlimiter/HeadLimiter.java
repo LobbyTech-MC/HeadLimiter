@@ -16,6 +16,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import dev.j3fftw.headlimiter.blocklimiter.BlockLimiter;
 import dev.j3fftw.headlimiter.blocklimiter.Group;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import net.guizhanss.guizhanlibplugin.updater.GuizhanUpdater;
 
 public final class HeadLimiter extends JavaPlugin implements Listener {
@@ -61,14 +62,13 @@ public final class HeadLimiter extends JavaPlugin implements Listener {
     }
 
     public boolean isCargo(SlimefunItem sfItem) {
-    	return sfItem instanceof SlimefunItem;
-    	/*
+    	
         return sfItem.isItem(SlimefunItems.CARGO_INPUT_NODE)
             || sfItem.isItem(SlimefunItems.CARGO_OUTPUT_NODE)
             || sfItem.isItem(SlimefunItems.CARGO_OUTPUT_NODE_2)
             || sfItem.isItem(SlimefunItems.CARGO_CONNECTOR_NODE)
             || sfItem.isItem(SlimefunItems.CARGO_MANAGER);
-            */
+            
     }
 
     @EventHandler(priority = EventPriority.MONITOR)

@@ -1,13 +1,14 @@
 package dev.j3fftw.headlimiter;
 
+import java.util.Map;
+
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.Map;
 
 public class CountCommand implements CommandExecutor {
 

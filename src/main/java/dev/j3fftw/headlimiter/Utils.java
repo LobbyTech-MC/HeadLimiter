@@ -1,9 +1,16 @@
 package dev.j3fftw.headlimiter;
 
-import com.google.common.util.concurrent.ThreadFactoryBuilder;
-import com.palmergames.bukkit.towny.TownyAPI;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import java.util.HashMap;
+import java.util.LinkedHashSet;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.function.Consumer;
+
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Chunk;
@@ -13,17 +20,16 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.EnableAsync;
 
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.HashMap;
-import java.util.LinkedHashSet;
-import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.function.Consumer;
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
+import com.palmergames.bukkit.towny.TownyAPI;
 
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import me.mrCookieSlime.Slimefun.api.BlockStorage;
+
+@EnableAsync
 public final class Utils {
 
     private static final ExecutorService SERVICE = Executors.newFixedThreadPool(
@@ -68,6 +74,42 @@ public final class Utils {
         return HeadLimiter.getInstance().getConfig().getInt("amount", 25);
     }
 
+    @Async
+    public static int countTotal(@Nonnull Chunk chunk) {
+        final BlockState[] tileEntities = chunk.getTileEntities();
+        /*
+        final int minChunkX = chunk.getX() << 4;
+        final int minChunkZ = chunk.getZ() << 4;
+        final int maxChunkX = (chunk.getX() << 4) | 15;
+        final int maxChunkZ = (chunk.getZ() << 4) | 15;
+        */
+        int total = 0;
+        for (BlockState state : tileEntities) {
+            SlimefunItem tileslimefunItem = BlockStorage.check(state.getLocation());
+                //TODO remove is cargo check
+            if (tileslimefunItem != null) {
+            //if (slimefunItem != null && HeadLimiter.getInstance().isCargo(slimefunItem)) {
+                    total++;
+            }
+        }
+            /*
+            for (int y = chunk.getWorld().getMinHeight(); y < chunk.getWorld().getMaxHeight(); y++) {
+                for (int x = minChunkX; x <= maxChunkX; x++) {
+                	for (int z = minChunkZ; z <= maxChunkZ; z++) {
+                		Location loc = new Location(chunk.getWorld(), x, y, z);
+                		SlimefunItem slimefunItem = BlockStorage.check(loc);
+                		if (slimefunItem != null) {
+                                total++;
+                        }
+                	}
+                }
+            }
+            */
+        return total;
+        
+    }
+    
+    @Async
     public static void count(@Nonnull Chunk chunk, @Nonnull Consumer<CountResult> consumer) {
         final BlockState[] tileEntities = chunk.getTileEntities();
 
@@ -77,7 +119,8 @@ public final class Utils {
             for (BlockState state : tileEntities) {
                 final SlimefunItem slimefunItem = BlockStorage.check(state.getLocation());
                 //TODO remove is cargo check
-                if (slimefunItem != null && HeadLimiter.getInstance().isCargo(slimefunItem)) {
+                if (slimefunItem != null) {
+                //if (slimefunItem != null && HeadLimiter.getInstance().isCargo(slimefunItem)) {
                     counts.merge(slimefunItem.getId(), 1, Integer::sum);
                     total++;
                 }
@@ -88,6 +131,7 @@ public final class Utils {
     }
 
     @ParametersAreNonnullByDefault
+    @Async
     public static void onCheck(Player player, Block block, int maxAmount, int count, SlimefunItem sfItem) {
         boolean isPlacingRestricted = isPlacingRestricted(block);
         if (count > maxAmount || isPlacingRestricted) {
@@ -114,6 +158,7 @@ public final class Utils {
      * @param block The block to be checked
      * @return Whether the placement is prohibited or not
      */
+    @Async
     public static boolean isPlacingRestricted(@Nonnull Block block) {
         if (HeadLimiter.getInstance().getConfig().getBoolean("block-wilderness-cargo", false)) {
             boolean isTownyWilderness = Bukkit.getServer().getPluginManager().isPluginEnabled("Towny")

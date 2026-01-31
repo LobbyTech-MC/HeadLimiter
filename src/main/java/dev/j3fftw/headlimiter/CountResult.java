@@ -1,7 +1,8 @@
 package dev.j3fftw.headlimiter;
 
-import javax.annotation.Nonnull;
 import java.util.Map;
+
+import javax.annotation.Nonnull;
 
 public class CountResult {
 

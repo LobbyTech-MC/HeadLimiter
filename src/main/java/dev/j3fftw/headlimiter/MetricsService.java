@@ -1,9 +1,9 @@
 package dev.j3fftw.headlimiter;
 
+import java.text.DecimalFormat;
+
 import org.bstats.bukkit.Metrics;
 import org.bstats.charts.SimplePie;
-
-import java.text.DecimalFormat;
 
 public class MetricsService {
 
